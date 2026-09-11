@@ -112,12 +112,15 @@ document.addEventListener('visibilitychange', () => { if (state.screen === 'exam
 document.addEventListener('click', (event) => { if (event.target.matches('[data-action="results"]')) { event.preventDefault(); state.screen = 'results'; render(); } });
 render();
 
-const RESULTS_API = '/.netlify/functions/results';
+const RESULTS_API = import.meta.env.DEV ? 'http://localhost:8888/.netlify/functions/results' : '/.netlify/functions/results';
 const getAdminPassword = () => localStorage.getItem(ADMIN_KEY) || '';
 
 async function saveRemoteResult(result) {
   const response = await fetch(RESULTS_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'submission', result }) });
-  if (!response.ok) throw new Error('Submission could not be saved.');
+  if (!response.ok) {
+    const details = await response.text();
+    throw new Error(`Submission could not be saved (${response.status}): ${details}`);
+  }
 }
 
 submitExam = async function saveSubmission(reason) {
@@ -133,7 +136,7 @@ submitExam = async function saveSubmission(reason) {
     render();
   } catch (error) {
     state.submitted = false;
-    alert('Your submission could not reach the server. Please check your connection and try again.');
+    alert(`${error.message}\n\nFor local testing, run the app with "netlify dev" instead of "npm run dev".`);
   }
 };
 

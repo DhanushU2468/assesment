@@ -58,17 +58,7 @@ const questions = [
     1
   ],
 
-  [
-    'Which operator is used for exponentiation in Python?',
-    ['^', '**', '//', '%'],
-    1
-  ],
 
-  [
-    'What is the result of 2 ** 4?',
-    ['6', '8', '16', '32'],
-    2
-  ],
 
   [
     'Which function converts a value into an integer?',
@@ -147,11 +137,6 @@ const questions = [
     1
   ],
 
-  [
-    'Which operator has the highest precedence among these?',
-    ['+', '*', '**', '='],
-    2
-  ],
 
   [
     'What is the output of 10 > 5 and 3 < 2?',
@@ -172,7 +157,7 @@ const questions = [
   ],
 
   [
-    'Which operator checks whether a value exists in a sequence?',
+    'Which operator checks whether a value exists in a collection?',
     ['is', 'in', '==', '='],
     1
   ],
@@ -384,7 +369,7 @@ const questions = [
   ],
 
   [
-    'What is the output of the following code?\n\nfor i in range(5):\n    if i == 2:\n        continue\n    print(i)',
+    'What is the output of the following code?\n\nfor i in range(5):\n   \t\t\t if i == 2:\n  \t\t\t\t\t\t      continue\n   \t\t print(i)',
     ['0 1 2 3 4', '0 1 3 4', '1 2 3 4', '0 2 4'],
     1
   ],
@@ -394,28 +379,9 @@ const questions = [
   // 6. NESTED LOOPS, CONDITIONAL LOOPS AND PVM
   // ============================================================
 
-  [
-    'What is the output of the following code?\n\nfor i in range(2):\n    for j in range(2):\n        print(i, j)',
-    [
-      '0 0, 0 1, 1 0, 1 1',
-      '0 0, 1 1',
-      '0 1, 1 0',
-      '1 1, 2 2'
-    ],
-    0
-  ],
+ 
 
-  [
-    'How many times will "Hello" be printed?\n\nfor i in range(3):\n    for j in range(2):\n        print("Hello")',
-    ['2', '3', '5', '6'],
-    3
-  ],
-
-  [
-    'What is the output of the following code?\n\nfor i in range(1, 6):\n    if i % 2 == 0:\n        print(i)',
-    ['1 3 5', '2 4', '0 2 4', '1 2 3 4 5'],
-    1
-  ],
+  
 
   [
     'What happens if the condition of a while loop never becomes False?',
@@ -441,11 +407,7 @@ const questions = [
     2
   ],
 
-  [
-    'Which file extension is commonly associated with Python bytecode?',
-    ['.python', '.exe', '.pyc', '.byte'],
-    2
-  ],
+
 
   [
     'Which sequence best represents the basic Python execution process?',
@@ -497,7 +459,7 @@ function startExam() { state.screen = 'exam'; state.remaining = DURATION_SECONDS
 function renderExam() {
   const current = questions[state.question];
   const answered = Object.keys(state.answers).length;
-  app.innerHTML = shell(`<div class="exam-head"><div><p class="eyebrow">NORTHSTAR TECHNICAL SCREENING</p><h2>Assessment in progress</h2></div><div class="exam-status"><div class="timer"><span class="timer-icon">◷</span><span id="timer">${formatTime(state.remaining)}</span></div><div class="warning-pill ${state.warnings ? 'warning' : ''}">⚠ ${state.warnings}/${MAX_WARNINGS} warnings</div></div></div><div class="progress-track"><span style="width: ${((state.question + 1) / questions.length) * 100}%"></span></div><div class="exam-layout"><aside class="question-nav"><div class="nav-title"><span>Questions</span><b>${answered}/${questions.length}</b></div><div class="question-dots">${questions.map((_, index) => `<button class="dot ${index === state.question ? 'active' : ''} ${state.answers[index] !== undefined ? 'answered' : ''}" data-question="${index}">${String(index + 1).padStart(2, '0')}</button>`).join('')}</div><div class="legend"><span><i class="legend-current"></i>Current</span><span><i class="legend-done"></i>Answered</span></div></aside><section class="question-card"><div class="question-meta"><span>Question ${String(state.question + 1).padStart(2, '0')} <small>/ ${questions.length}</small></span><span>Single choice</span></div><h1>${esc(current[0])}</h1><div class="answers">${current[1].map((answer, index) => `<button class="answer ${state.answers[state.question] === index ? 'selected' : ''}" data-answer="${index}"><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${esc(answer)}</span><span class="answer-check">✓</span></button>`).join('')}</div><div class="question-actions"><button class="secondary-button" data-action="prev" ${state.question === 0 ? 'disabled' : ''}>← Previous</button>${state.question === questions.length - 1 ? '<button class="submit-button" data-action="submit">Submit assessment <span>→</span></button>' : '<button class="primary-button" data-action="next">Next question <span>→</span></button>'}</div></section></div>`);
+    app.innerHTML = shell(`<div class="exam-head"><div><p class="eyebrow">NORTHSTAR TECHNICAL SCREENING</p><h2>Assessment in progress</h2></div><div class="exam-status"><div class="timer"><span class="timer-icon">◷</span><span id="timer">${formatTime(state.remaining)}</span></div><div class="warning-pill ${state.warnings ? 'warning' : ''}">⚠ ${state.warnings}/${MAX_WARNINGS} warnings</div></div></div><div class="progress-track"><span style="width: ${((state.question + 1) / questions.length) * 100}%"></span></div><div class="exam-layout"><aside class="question-nav"><div class="nav-title"><span>Questions</span><b>${answered}/${questions.length}</b></div><div class="question-dots">${questions.map((_, index) => `<button class="dot ${index === state.question ? 'active' : ''} ${state.answers[index] !== undefined ? 'answered' : ''}" data-question="${index}">${String(index + 1).padStart(2, '0')}</button>`).join('')}</div><div class="legend"><span><i class="legend-current"></i>Current</span><span><i class="legend-done"></i>Answered</span></div></aside><section class="question-card"><div class="question-meta"><span>Question ${String(state.question + 1).padStart(2, '0')} <small>/ ${questions.length}</small></span><span>Single choice</span></div><h1>${esc(current[0])}</h1><div class="answers">${current[1].map((answer, index) => `<button class="answer ${state.answers[state.question] === index ? 'selected' : ''}" data-answer="${index}"><span class="answer-letter">${String.fromCharCode(65 + index)}</span><span>${esc(answer)}</span><span class="answer-check">✓</span></button>`).join('')}</div><div class="question-actions"><button class="secondary-button" data-action="prev" ${state.question === 0 ? 'disabled' : ''}>← Previous</button>${state.question === questions.length - 1 ? '<button class="submit-button" data-action="submit">Submit assessment <span>→</span></button>' : '<button class="primary-button" data-action="next">Next question <span>→</span></button>'}</div></section></div>`);
   document.querySelectorAll('[data-answer]').forEach((button) => button.addEventListener('click', () => { state.answers[state.question] = Number(button.dataset.answer); renderExam(); }));
   document.querySelectorAll('[data-question]').forEach((button) => button.addEventListener('click', () => { state.question = Number(button.dataset.question); renderExam(); }));
   document.querySelector('[data-action="prev"]')?.addEventListener('click', () => { state.question -= 1; renderExam(); });

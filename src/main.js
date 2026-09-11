@@ -6,58 +6,463 @@ const MAX_WARNINGS = 3;
 const ADMIN_KEY = 'northstar-admin-auth';
 
 const questions = [
-  ['Which principle ensures a class has only one reason to change?', ['Open/closed principle', 'Single responsibility principle', 'Liskov substitution principle', 'Dependency inversion principle'], 1],
-  ['What does HTTP status code 404 indicate?', ['The request succeeded', 'The server is unavailable', 'The requested resource was not found', 'The request is unauthorized'], 2],
-  ['Which data structure follows FIFO ordering?', ['Stack', 'Queue', 'Tree', 'Graph'], 1],
-  ['What is the binary representation of decimal 10?', ['1001', '1010', '1100', '1110'], 1],
-  ['Which SQL clause filters grouped results?', ['WHERE', 'ORDER BY', 'HAVING', 'LIMIT'], 2],
-  ['What is the primary purpose of an index in a database?', ['Encrypt records', 'Speed up lookups', 'Create backups', 'Validate passwords'], 1],
-  ['Which protocol is used to securely browse websites?', ['FTP', 'HTTP', 'SSH', 'HTTPS'], 3],
-  ['What does CSS stand for?', ['Computer Style Sheets', 'Cascading Style Sheets', 'Creative Styling System', 'Coded Style Syntax'], 1],
-  ['Which JavaScript keyword declares a block-scoped constant?', ['var', 'let', 'const', 'static'], 2],
-  ['What is the average time complexity of binary search?', ['O(n)', 'O(log n)', 'O(n log n)', 'O(1)'], 1],
-  ['Which Git command creates a new branch?', ['git fork', 'git branch', 'git split', 'git checkout --new'], 1],
-  ['What is the default port for HTTPS?', ['80', '21', '443', '3000'], 2],
-  ['Which component manages state in a React application?', ['The browser', 'Application logic', 'Only the database', 'DNS'], 1],
-  ['What does API stand for?', ['Application Programming Interface', 'Applied Program Instruction', 'Application Process Index', 'Automated Programming Input'], 0],
-  ['Which of these is not a programming paradigm?', ['Object-oriented', 'Functional', 'Procedural', 'Relational database'], 3],
-  ['What is normalization in databases used to reduce?', ['Data redundancy', 'Network latency', 'CPU speed', 'File permissions'], 0],
-  ['Which layer of the OSI model handles routing?', ['Physical', 'Data link', 'Network', 'Application'], 2],
-  ['What is JSON primarily used for?', ['Styling pages', 'Data interchange', 'Compiling code', 'Managing hardware'], 1],
-  ['Which test checks a small isolated unit of code?', ['Unit test', 'Load test', 'Acceptance test', 'Smoke test'], 0],
-  ['What does responsive web design adapt to?', ['Only printers', 'Different screen sizes', 'Database schemas', 'Compiler versions'], 1],
-  ['Which memory is volatile?', ['SSD', 'Hard disk', 'RAM', 'ROM'], 2],
-  ['What does DNS translate?', ['Domain names to IP addresses', 'HTML to CSS', 'Source to binary', 'Files to folders'], 0],
-  ['Which keyword handles errors in JavaScript?', ['try/catch', 'error/handle', 'rescue', 'guard'], 0],
-  ['What is an algorithm?', ['A hardware device', 'A step-by-step procedure', 'A database table', 'A user interface'], 1],
-  ['Which cloud model provides virtual machines?', ['SaaS', 'PaaS', 'IaaS', 'DaaS'], 2],
-  ['What does CRUD stand for?', ['Create, Read, Update, Delete', 'Compile, Run, Use, Deploy', 'Copy, Replace, Upload, Download', 'Create, Render, Use, Design'], 0],
-  ['Which value is a Boolean?', ['"true"', '1', 'true', 'yes'], 2],
-  ['What is an endpoint in an API?', ['A physical cable', 'A URL that exposes a service', 'A database password', 'A CSS selector'], 1],
-  ['Which attack attempts to inject database commands?', ['Phishing', 'SQL injection', 'DDoS', 'Brute force'], 1],
-  ['What is version control used for?', ['Tracking code changes', 'Rendering images', 'Hosting email', 'Compressing videos'], 0],
-  ['Which HTML element creates a hyperlink?', ['<link>', '<a>', '<href>', '<url>'], 1],
-  ['Which HTTP method is generally used to retrieve data?', ['POST', 'PUT', 'GET', 'PATCH'], 2],
-  ['What is encapsulation?', ['Bundling data and methods together', 'Deleting old data', 'Copying a repository', 'Splitting a network'], 0],
-  ['Which format is commonly used for tabular export?', ['CSV', 'PNG', 'MP3', 'WAV'], 0],
-  ['What does latency measure?', ['Delay before data transfer', 'Total disk size', 'Number of users', 'Screen brightness'], 0],
-  ['Which tool commonly installs JavaScript packages?', ['npm', 'pip', 'maven', 'cargo'], 0],
-  ['What is a primary key?', ['A unique row identifier', 'A password', 'A backup file', 'A view template'], 0],
-  ['Which CSS property changes text color?', ['font-style', 'background', 'color', 'text-fill'], 2],
-  ['What is the purpose of a cache?', ['Store frequently used data for faster access', 'Delete logs', 'Encrypt traffic', 'Compile HTML'], 0],
-  ['Which status code represents a successful HTTP response?', ['200', '301', '403', '500'], 0],
-  ['What does an event listener do?', ['Responds to an event', 'Creates a database', 'Compresses CSS', 'Sets a DNS record'], 0],
-  ['Which is an example of authentication?', ['Checking a username and password', 'Assigning a color', 'Sorting a list', 'Opening a file'], 0],
-  ['What does CI commonly stand for?', ['Continuous Integration', 'Code Inspection', 'Central Interface', 'Compiled Input'], 0],
-  ['Which data type stores an ordered collection in JavaScript?', ['Array', 'Boolean', 'Symbol', 'RegExp'], 0],
-  ['What is a CDN used for?', ['Delivering content from distributed locations', 'Designing databases', 'Writing unit tests', 'Managing passwords'], 0],
-  ['Which practice makes code easier to maintain?', ['Clear naming', 'Duplicating logic', 'Ignoring tests', 'Hardcoding secrets'], 0],
-  ['What does SSL/TLS primarily protect?', ['Data in transit', 'Screen resolution', 'Disk capacity', 'Keyboard input'], 0],
-  ['Which operator checks strict equality in JavaScript?', ['=', '==', '===', '!='], 2],
-  ['What is a function parameter?', ['A value accepted by a function', 'A return value only', 'A file extension', 'A CSS rule'], 0],
-  ['Which principle recommends keeping interfaces focused?', ['Interface segregation', 'Inheritance only', 'Global state', 'Premature optimization'], 0],
-  ['What does UX focus on?', ['The user experience', 'Server hardware', 'Data encryption only', 'Compiler output'], 0],
-  ['Which command shows the current Git working tree state?', ['git status', 'git inspect', 'git now', 'git view'], 0],
+  // ============================================================
+  // 1. DATA TYPES AND OPERATORS
+  // ============================================================
+
+  [
+    'What is the data type of the value 25 in Python?',
+    ['str', 'int', 'float', 'bool'],
+    1
+  ],
+
+  [
+    'What is the data type of 12.5?',
+    ['int', 'str', 'float', 'bool'],
+    2
+  ],
+
+  [
+    'Which of the following is a Boolean value in Python?',
+    ['"True"', '1', 'True', '"False"'],
+    2
+  ],
+
+  [
+    'What is the output of type("Python")?',
+    ["<class 'int'>", "<class 'str'>", "<class 'float'>", "<class 'bool'>"],
+    1
+  ],
+
+  [
+    'What is the result of 15 + 5?',
+    ['10', '20', '25', '15'],
+    1
+  ],
+
+  [
+    'What is the result of 10 / 2?',
+    ['5', '5.0', '2', '2.0'],
+    1
+  ],
+
+  [
+    'What is the result of 10 // 3?',
+    ['3', '3.33', '1', '4'],
+    0
+  ],
+
+  [
+    'What is the result of 10 % 3?',
+    ['0', '1', '2', '3'],
+    1
+  ],
+
+  [
+    'Which operator is used for exponentiation in Python?',
+    ['^', '**', '//', '%'],
+    1
+  ],
+
+  [
+    'What is the result of 2 ** 4?',
+    ['6', '8', '16', '32'],
+    2
+  ],
+
+  [
+    'Which function converts a value into an integer?',
+    ['str()', 'float()', 'int()', 'bool()'],
+    2
+  ],
+
+  [
+    'What is the result of int("50")?',
+    ['"50"', '50', '50.0', 'Error'],
+    1
+  ],
+
+  [
+    'What is the result of float(10)?',
+    ['10', '10.0', '"10"', 'Error'],
+    1
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = "Python"\nprint(x[0])',
+    ['P', 'y', 'Python', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = "Python"\nprint(x[1:4])',
+    ['Pyt', 'yth', 'tho', 'ython'],
+    1
+  ],
+
+  [
+    'What is the output of the following code?\n\nnumbers = [1, 2]\nnumbers.append(3)\nprint(numbers)',
+    ['[1, 2]', '[3, 1, 2]', '[1, 2, 3]', '[1, 3, 2]'],
+    2
+  ],
+
+  [
+    'Which list method inserts an element at a specific position?',
+    ['append()', 'insert()', 'add()', 'push()'],
+    1
+  ],
+
+  [
+    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nnumbers.remove(20)\nprint(numbers)',
+    ['[10, 30]', '[20, 30]', '[10, 20]', '[10, 20, 30]'],
+    0
+  ],
+
+  [
+    'Which function returns the largest value in a list?',
+    ['maximum()', 'largest()', 'max()', 'high()'],
+    2
+  ],
+
+  [
+    'What is the output of the following code?\n\nnumbers = [3, 1, 2]\nnumbers.sort()\nprint(numbers)',
+    ['[3, 1, 2]', '[1, 2, 3]', '[2, 1, 3]', 'Error'],
+    1
+  ],
+
+
+  // ============================================================
+  // 2. OPERATOR PRECEDENCE AND OPERATORS
+  // ============================================================
+
+  [
+    'What is the output of 2 + 3 * 4?',
+    ['20', '14', '24', '9'],
+    1
+  ],
+
+  [
+    'What is the output of (2 + 3) * 4?',
+    ['14', '20', '24', '9'],
+    1
+  ],
+
+  [
+    'Which operator has the highest precedence among these?',
+    ['+', '*', '**', '='],
+    2
+  ],
+
+  [
+    'What is the output of 10 > 5 and 3 < 2?',
+    ['True', 'False', '10', 'Error'],
+    1
+  ],
+
+  [
+    'What is the output of True or False?',
+    ['True', 'False', 'None', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of not True?',
+    ['True', 'False', 'None', 'Error'],
+    1
+  ],
+
+  [
+    'Which operator checks whether a value exists in a sequence?',
+    ['is', 'in', '==', '='],
+    1
+  ],
+
+  [
+    'What is the output of the following code?\n\nnumbers = [1, 2, 3]\nprint(2 in numbers)',
+    ['True', 'False', '2', 'Error'],
+    0
+  ],
+
+  [
+    'Which operator checks object identity in Python?',
+    ['==', 'is', 'in', '='],
+    1
+  ],
+
+  [
+    'What is the difference between == and is?',
+    [
+      '== checks identity and is checks value',
+      '== checks value and is checks identity',
+      'Both always check identity',
+      'Both always check type'
+    ],
+    1
+  ],
+
+  [
+    'What is the output of 5 == 5.0?',
+    ['True', 'False', 'Error', 'None'],
+    0
+  ],
+
+
+  // ============================================================
+  // 3. ASSIGNMENT AND LIST OPERATIONS
+  // ============================================================
+
+  [
+    'What is the output of the following code?\n\nx = 10\nx += 5\nprint(x)',
+    ['10', '15', '5', '105'],
+    1
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 20\nx //= 3\nprint(x)',
+    ['6', '6.66', '7', '20'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 10\nx %= 3\nprint(x)',
+    ['0', '1', '2', '3'],
+    1
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 2\nx **= 3\nprint(x)',
+    ['6', '8', '9', '12'],
+    1
+  ],
+
+  [
+    'Which operator is used for floor division?',
+    ['/', '//', '%', '**'],
+    1
+  ],
+
+  [
+    'Which operator is used to check that two values are NOT equal?',
+    ['=', '==', '!=', 'is'],
+    2
+  ],
+
+  [
+    'What is the output of the following code?\n\nnumbers = [5, 2, 8, 1]\nprint(max(numbers))',
+    ['1', '2', '5', '8'],
+    3
+  ],
+
+  [
+    'What is the output of the following code?\n\nnumbers = [5, 2, 8, 1]\nprint(min(numbers))',
+    ['1', '2', '5', '8'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nnumbers = [1, 2, 3]\nprint(numbers[::-1])',
+    ['[1, 2, 3]', '[3, 2, 1]', '[2, 3, 1]', 'Error'],
+    1
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = [1, 2]\ny = [3, 4]\nprint(x + y)',
+    ['[1, 2, 3, 4]', '[4, 6]', '[1, 2]', 'Error'],
+    0
+  ],
+
+
+  // ============================================================
+  // 4. IF, ELIF, ELSE AND CONDITIONAL EXPRESSIONS
+  // ============================================================
+
+  [
+    'Which keyword is used to make a decision in Python?',
+    ['for', 'if', 'when', 'switch'],
+    1
+  ],
+
+  [
+    'Which keyword is used to check another condition after if?',
+    ['else if', 'elif', 'elseif', 'another'],
+    1
+  ],
+
+  [
+    'Which keyword executes when all previous conditions are False?',
+    ['default', 'otherwise', 'else', 'final'],
+    2
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 10\nif x > 5:\n    print("Yes")\nelse:\n    print("No")',
+    ['Yes', 'No', '10', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 15\nif x > 20:\n    print("A")\nelif x > 10:\n    print("B")\nelse:\n    print("C")',
+    ['A', 'B', 'C', 'Error'],
+    1
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 8\nif x > 5 and x < 10:\n    print("Valid")\nelse:\n    print("Invalid")',
+    ['Valid', 'Invalid', '8', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 10\nresult = "Positive" if x > 0 else "Negative"\nprint(result)',
+    ['Positive', 'Negative', 'True', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 15\nif x > 10:\n    if x < 20:\n        print("A")\n    else:\n        print("B")\nelse:\n    print("C")',
+    ['A', 'B', 'C', 'Error'],
+    0
+  ],
+
+
+  // ============================================================
+  // 5. LOOPS
+  // ============================================================
+
+  [
+    'Which loop is commonly used to iterate over a sequence?',
+    ['if', 'for', 'while', 'switch'],
+    1
+  ],
+
+  [
+    'Which loop is generally used when a condition controls repetition?',
+    ['for', 'while', 'if', 'elif'],
+    1
+  ],
+
+  [
+    'What does range(5) generate?',
+    ['1, 2, 3, 4, 5', '0, 1, 2, 3, 4', '0, 1, 2, 3, 4, 5', '5 only'],
+    1
+  ],
+
+  [
+    'What is the output of the following code?\n\nfor i in range(3):\n    print(i)',
+    ['1 2 3', '0 1 2', '0 1 2 3', '3 2 1'],
+    1
+  ],
+
+  [
+    'What is the output of the following code?\n\ni = 1\nwhile i <= 3:\n    print(i)\n    i += 1',
+    ['1 2', '1 2 3', '0 1 2', '1 2 3 4'],
+    1
+  ],
+
+  [
+    'Which keyword immediately terminates a loop?',
+    ['stop', 'break', 'exit', 'terminate'],
+    1
+  ],
+
+  [
+    'Which keyword skips the current iteration and continues with the next one?',
+    ['skip', 'continue', 'pass', 'next'],
+    1
+  ],
+
+  [
+    'Which keyword is used as a placeholder that performs no operation?',
+    ['skip', 'continue', 'pass', 'empty'],
+    2
+  ],
+
+  [
+    'What is the output of the following code?\n\nfor i in range(5):\n    if i == 3:\n        break\n    print(i)',
+    ['0 1 2', '0 1 2 3', '1 2 3', '0 1 2 3 4'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nfor i in range(5):\n    if i == 2:\n        continue\n    print(i)',
+    ['0 1 2 3 4', '0 1 3 4', '1 2 3 4', '0 2 4'],
+    1
+  ],
+
+
+  // ============================================================
+  // 6. NESTED LOOPS, CONDITIONAL LOOPS AND PVM
+  // ============================================================
+
+  [
+    'What is the output of the following code?\n\nfor i in range(2):\n    for j in range(2):\n        print(i, j)',
+    [
+      '0 0, 0 1, 1 0, 1 1',
+      '0 0, 1 1',
+      '0 1, 1 0',
+      '1 1, 2 2'
+    ],
+    0
+  ],
+
+  [
+    'How many times will "Hello" be printed?\n\nfor i in range(3):\n    for j in range(2):\n        print("Hello")',
+    ['2', '3', '5', '6'],
+    3
+  ],
+
+  [
+    'What is the output of the following code?\n\nfor i in range(1, 6):\n    if i % 2 == 0:\n        print(i)',
+    ['1 3 5', '2 4', '0 2 4', '1 2 3 4 5'],
+    1
+  ],
+
+  [
+    'What happens if the condition of a while loop never becomes False?',
+    ['The loop runs once', 'The loop becomes infinite', 'Python skips the loop', 'Python automatically stops it'],
+    1
+  ],
+
+  [
+    'What does PVM stand for in Python?',
+    ['Python Virtual Machine', 'Python Variable Manager', 'Program Virtual Machine', 'Python Version Manager'],
+    0
+  ],
+
+  [
+    'What is the main role of the Python Virtual Machine?',
+    ['Write Python programs', 'Execute Python bytecode', 'Create databases', 'Convert HTML to CSS'],
+    1
+  ],
+
+  [
+    'What is Python source code generally compiled into before execution?',
+    ['Machine code', 'HTML', 'Bytecode', 'SQL'],
+    2
+  ],
+
+  [
+    'Which file extension is commonly associated with Python bytecode?',
+    ['.python', '.exe', '.pyc', '.byte'],
+    2
+  ],
+
+  [
+    'Which sequence best represents the basic Python execution process?',
+    [
+      'Source code → Bytecode → PVM execution',
+      'Source code → HTML → Browser',
+      'Bytecode → Source code → Browser',
+      'Source code → SQL → Database'
+    ],
+    0
+  ],
+
+  [
+    'Is Python bytecode the same as native machine code for a CPU?',
+    ['Yes, always', 'No, it is an intermediate form', 'Only on Windows', 'Only on Linux'],
+    1
+  ]
 ];
 
 const state = { screen: 'welcome', candidate: null, answers: {}, question: 0, remaining: DURATION_SECONDS, warnings: 0, timer: null, submitted: false };

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
 .question-card h1 { margin: 30px 0 20px; }
-.question-code { margin: 0 0 28px; padding: 18px 20px; overflow-x: auto; border-left: 3px solid var(--coral); background: #eef3ee; color: var(--deep); font: 500 14px/1.7 'DM Mono', monospace; white-space: pre; }
+.question-card h1 { margin: 30px 0 20px; max-width: 100%; overflow-wrap: anywhere; }
+.question-code { margin: 26px 0 0; padding: 18px 20px; overflow-x: auto; border-left: 3px solid var(--coral); background: #eef3ee; color: var(--deep); font: 500 14px/1.7 'DM Mono', monospace; white-space: pre; }
 .question-code code, .answer-copy { font-family: 'DM Mono', monospace; }
 .answer-copy { line-height: 1.5; }
 

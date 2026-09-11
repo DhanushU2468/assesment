@@ -111,3 +111,51 @@ function download(type, results) { const headers = ['name', 'regNo', 'score', 't
 document.addEventListener('visibilitychange', () => { if (state.screen === 'exam' && document.hidden && !state.submitted) { state.warnings += 1; if (state.warnings >= MAX_WARNINGS) submitExam('Auto-submitted after 3 tab warnings'); else { renderExam(); alert(`Warning ${state.warnings} of ${MAX_WARNINGS}: please stay on the assessment tab.`); } } });
 document.addEventListener('click', (event) => { if (event.target.matches('[data-action="results"]')) { event.preventDefault(); state.screen = 'results'; render(); } });
 render();
+
+const RESULTS_API = '/.netlify/functions/results';
+const getAdminPassword = () => localStorage.getItem(ADMIN_KEY) || '';
+
+async function saveRemoteResult(result) {
+  const response = await fetch(RESULTS_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'submission', result }) });
+  if (!response.ok) throw new Error('Submission could not be saved.');
+}
+
+submitExam = async function saveSubmission(reason) {
+  if (state.submitted || !state.candidate) return;
+  state.submitted = true;
+  clearInterval(state.timer);
+  const correct = questions.reduce((total, question, index) => total + (state.answers[index] === question[2] ? 1 : 0), 0);
+  const result = { id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()), name: state.candidate.name, regNo: state.candidate.regNo, score: correct, total: questions.length, percentage: Math.round((correct / questions.length) * 100), answered: Object.keys(state.answers).length, warnings: state.warnings, reason, submittedAt: new Date().toISOString() };
+  try {
+    await saveRemoteResult(result);
+    state.result = result;
+    state.screen = 'complete';
+    render();
+  } catch (error) {
+    state.submitted = false;
+    alert('Your submission could not reach the server. Please check your connection and try again.');
+  }
+};
+
+renderResults = async function loadRemoteResults() {
+  const password = getAdminPassword();
+  if (!password) {
+    app.innerHTML = shell(`<section class="auth-panel"><p class="eyebrow">ADMIN ACCESS</p><h1>Results dashboard</h1><p>Enter the administrator password to view shared submissions.</p><form id="admin-form"><input name="passcode" type="password" placeholder="Password" required><button class="primary-button">Open results <span>→</span></button></form><button class="text-button" data-action="home">← Back to candidate check-in</button></section>`, 'results');
+    document.querySelector('#admin-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const entered = String(new FormData(event.target).get('passcode'));
+      const response = await fetch(RESULTS_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'login', password: entered }) });
+      if (!response.ok) { event.target.classList.add('invalid'); return; }
+      localStorage.setItem(ADMIN_KEY, entered);
+      loadRemoteResults();
+    });
+    document.querySelector('[data-action="home"]').addEventListener('click', (event) => { event.preventDefault(); state.screen = 'welcome'; render(); });
+    return;
+  }
+  const response = await fetch(RESULTS_API, { headers: { 'x-admin-password': password } });
+  if (response.status === 401) { localStorage.removeItem(ADMIN_KEY); loadRemoteResults(); return; }
+  const results = await response.json();
+  app.innerHTML = shell(`<section class="results-head"><div><p class="eyebrow">ADMINISTRATION · SHARED RECORDS</p><h1>Results dashboard</h1><p>Review and export completed assessment attempts from all candidates.</p></div><div class="export-actions"><button class="secondary-button" data-export="json">↓ JSON</button><button class="primary-button" data-export="csv">↓ CSV</button></div></section><div class="stats-row"><div><span>Total attempts</span><strong>${results.length}</strong></div><div><span>Average score</span><strong>${results.length ? Math.round(results.reduce((sum, result) => sum + result.percentage, 0) / results.length) : 0}%</strong></div><div><span>Latest submission</span><strong>${results.length ? new Date(results[results.length - 1].submittedAt).toLocaleDateString() : '—'}</strong></div></div><div class="table-wrap">${results.length ? `<table><thead><tr><th>Candidate</th><th>Registration</th><th>Score</th><th>Answered</th><th>Warnings</th><th>Submitted</th></tr></thead><tbody>${results.slice().reverse().map((result) => `<tr><td><b>${esc(result.name)}</b></td><td>${esc(result.regNo)}</td><td><span class="score">${result.percentage}%</span> <small>${result.score}/${result.total}</small></td><td>${result.answered}/${result.total}</td><td>${result.warnings}</td><td>${new Date(result.submittedAt).toLocaleString()}</td></tr>`).join('')}</tbody></table>` : '<div class="empty-state"><span>○</span><h3>No attempts yet</h3><p>Completed submissions will appear here.</p></div>'}</div><button class="text-button" data-action="logout">Sign out of results</button>`, 'results');
+  document.querySelectorAll('[data-export]').forEach((button) => button.addEventListener('click', () => download(button.dataset.export, results)));
+  document.querySelector('[data-action="logout"]').addEventListener('click', () => { localStorage.removeItem(ADMIN_KEY); loadRemoteResults(); });
+};

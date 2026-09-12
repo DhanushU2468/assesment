@@ -34,12 +34,7 @@ const questions = [
     1
   ],
 
-  [
-    'What is the result of 15 + 5?',
-    ['10', '20', '25', '15'],
-    1
-  ],
-
+  
   [
     'What is the result of 10 / 2?',
     ['5', '5.0', '2', '2.0'],
@@ -61,28 +56,12 @@ const questions = [
 
 
   [
-    'Which function converts a value into an integer?',
-    ['str()', 'float()', 'int()', 'bool()'],
-    2
-  ],
-
-  [
-    'What is the result of int("50")?',
-    ['"50"', '50', '50.0', 'Error'],
-    1
-  ],
-
-  [
     'What is the result of float(10)?',
     ['10', '10.0', '"10"', 'Error'],
     1
   ],
 
-  [
-    'What is the output of the following code?\n\nx = "Python"\nprint(x[0])',
-    ['P', 'y', 'Python', 'Error'],
-    0
-  ],
+  
 
   [
     'What is the output of the following code?\n\nx = "Python"\nprint(x[1:4])',
@@ -102,11 +81,6 @@ const questions = [
     1
   ],
 
-  [
-    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nnumbers.remove(20)\nprint(numbers)',
-    ['[10, 30]', '[20, 30]', '[10, 20]', '[10, 20, 30]'],
-    0
-  ],
 
   [
     'Which function returns the largest value in a list?',
@@ -168,28 +142,10 @@ const questions = [
     0
   ],
 
-  [
-    'Which operator checks object identity in Python?',
-    ['==', 'is', 'in', '='],
-    1
-  ],
+  
+ 
 
-  [
-    'What is the difference between == and is?',
-    [
-      '== checks identity and is checks value',
-      '== checks value and is checks identity',
-      'Both always check identity',
-      'Both always check type'
-    ],
-    1
-  ],
-
-  [
-    'What is the output of 5 == 5.0?',
-    ['True', 'False', 'Error', 'None'],
-    0
-  ],
+  
 
 
   // ============================================================
@@ -202,11 +158,7 @@ const questions = [
     1
   ],
 
-  [
-    'What is the output of the following code?\n\nx = 20\nx //= 3\nprint(x)',
-    ['6', '6.66', '7', '20'],
-    0
-  ],
+ 
 
   [
     'What is the output of the following code?\n\nx = 10\nx %= 3\nprint(x)',
@@ -214,11 +166,7 @@ const questions = [
     1
   ],
 
-  [
-    'What is the output of the following code?\n\nx = 2\nx **= 3\nprint(x)',
-    ['6', '8', '9', '12'],
-    1
-  ],
+  
 
   [
     'Which operator is used for floor division?',
@@ -232,17 +180,9 @@ const questions = [
     2
   ],
 
-  [
-    'What is the output of the following code?\n\nnumbers = [5, 2, 8, 1]\nprint(max(numbers))',
-    ['1', '2', '5', '8'],
-    3
-  ],
+ 
 
-  [
-    'What is the output of the following code?\n\nnumbers = [5, 2, 8, 1]\nprint(min(numbers))',
-    ['1', '2', '5', '8'],
-    0
-  ],
+  
 
   [
     'What is the output of the following code?\n\nnumbers = [1, 2, 3]\nprint(numbers[::-1])',
@@ -250,11 +190,7 @@ const questions = [
     1
   ],
 
-  [
-    'What is the output of the following code?\n\nx = [1, 2]\ny = [3, 4]\nprint(x + y)',
-    ['[1, 2, 3, 4]', '[4, 6]', '[1, 2]', 'Error'],
-    0
-  ],
+  
 
 
   // ============================================================
@@ -320,11 +256,7 @@ const questions = [
     1
   ],
 
-  [
-    'Which loop is generally used when a condition controls repetition?',
-    ['for', 'while', 'if', 'elif'],
-    1
-  ],
+
 
   [
     'What does range(5) generate?',
@@ -332,17 +264,7 @@ const questions = [
     1
   ],
 
-  [
-    'What is the output of the following code?\n\nfor i in range(3):\n    print(i)',
-    ['1 2 3', '0 1 2', '0 1 2 3', '3 2 1'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\ni = 1\nwhile i <= 3:\n    print(i)\n    i += 1',
-    ['1 2', '1 2 3', '0 1 2', '1 2 3 4'],
-    1
-  ],
+ 
 
   [
     'Which keyword immediately terminates a loop?',
@@ -362,17 +284,7 @@ const questions = [
     2
   ],
 
-  [
-    'What is the output of the following code?\n\nfor i in range(5):\n    if i == 3:\n        break\n    print(i)',
-    ['0 1 2', '0 1 2 3', '1 2 3', '0 1 2 3 4'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nfor i in range(5):\n   \t\t\t if i == 2:\n  \t\t\t\t\t\t      continue\n   \t\t print(i)',
-    ['0 1 2 3 4', '0 1 3 4', '1 2 3 4', '0 2 4'],
-    1
-  ],
+  
 
 
   // ============================================================
@@ -395,36 +307,13 @@ const questions = [
     0
   ],
 
-  [
-    'What is the main role of the Python Virtual Machine?',
-    ['Write Python programs', 'Execute Python bytecode', 'Create databases', 'Convert HTML to CSS'],
-    1
-  ],
-
-  [
-    'What is Python source code generally compiled into before execution?',
-    ['Machine code', 'HTML', 'Bytecode', 'SQL'],
-    2
-  ],
+  
 
 
 
-  [
-    'Which sequence best represents the basic Python execution process?',
-    [
-      'Source code → Bytecode → PVM execution',
-      'Source code → HTML → Browser',
-      'Bytecode → Source code → Browser',
-      'Source code → SQL → Database'
-    ],
-    0
-  ],
 
-  [
-    'Is Python bytecode the same as native machine code for a CPU?',
-    ['Yes, always', 'No, it is an intermediate form', 'Only on Windows', 'Only on Linux'],
-    1
-  ]
+  
+
 ];
 
 const state = { screen: 'welcome', candidate: null, answers: {}, question: 0, remaining: DURATION_SECONDS, warnings: 0, timer: null, submitted: false };

@@ -4,146 +4,131 @@ const STORAGE_KEY = 'northstar-assessment-results';
 const DURATION_SECONDS = 50 * 60;
 const MAX_WARNINGS = 3;
 const ADMIN_KEY = 'northstar-admin-auth';
-
 const questions = [
   // ============================================================
-  // 1. DATA TYPES, TYPE CONVERSION AND OPERATORS
+  // 1. DATA TYPES AND TYPE CONVERSION
   // ============================================================
 
   [
-    'What is the output of the following code?\n\nx = 10\ny = 3\nprint(x / y)',
-    ['3', '3.0', '3.3333333333333335', 'Error'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 10\ny = 3\nprint(x // y)',
-    ['3', '3.33', '1', '4'],
+    'What is the output of the following code?\n\nx = 10\ny = 2.5\nprint(type(x), type(y))',
+    ["<class 'int'> <class 'float'>", "<class 'float'> <class 'int'>", "<class 'str'> <class 'float'>", "<class 'int'> <class 'int'>"],
     0
   ],
 
   [
-    'What is the output of the following code?\n\nx = 2 ** 3\nprint(x)',
-    ['5', '6', '8', '9'],
+    'What is the output of the following code?\n\nx = "25"\ny = int(x)\nprint(type(y))',
+    ["<class 'str'>", "<class 'float'>", "<class 'int'>", "<class 'bool'>"],
     2
   ],
 
   [
-    'What is the output of the following code?\n\nx = 10\nprint(x % 4)',
-    ['1', '2', '2.5', '4'],
+    'What is the output of the following code?\n\nx = 10\ny = float(x)\nprint(y)',
+    ['10', '10.0', '"10"', 'Error'],
     1
   ],
 
   [
-    'What is the output of the following code?\n\nx = "10"\ny = 5\nprint(int(x) + y)',
-    ['105', '15', '"105"', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 5\ny = 2.0\nprint(type(x + y))',
-    ["<class 'int'>", "<class 'float'>", "<class 'str'>", "<class 'bool'>"],
-    1
-  ],
-
-  [
-    'What is the result of bool(0) in Python?',
+    'What is the output of the following code?\n\nx = 0\nprint(bool(x))',
     ['True', 'False', '0', 'None'],
     1
   ],
 
   [
-    'What is the result of bool("False") in Python?',
-    ['True', 'False', 'None', 'Error'],
+    'What is the output of the following code?\n\nx = "0"\nprint(bool(x))',
+    ['True', 'False', '0', 'Error'],
     0
   ],
 
   [
-    'What is the output of the following code?\n\nx = 7\nx *= 2\nx -= 3\nprint(x)',
-    ['8', '11', '14', '17'],
+    'What is the output of the following code?\n\nx = 12.8\nprint(int(x))',
+    ['12', '13', '12.8', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 5\ny = 2\nprint(float(x // y))',
+    ['2', '2.0', '2.5', 'Error'],
     1
   ],
 
   [
-    'What is the output of the following code?\n\nprint(5 > 3 == 3)',
-    ['True', 'False', '3', 'Error'],
-    0
+    'Which conversion correctly converts the string "45.6" into a floating-point value?',
+    ['int("45.6")', 'float("45.6")', 'str("45.6")', 'bool("45.6")'],
+    1
   ],
 
+  // ============================================================
+  // 2. INDEXING AND SLICING
+  // ============================================================
 
-  // ============================================================
-  // 2. STRINGS
-  // ============================================================
+  [
+    'What is the output of the following code?\n\ntext = "Python"\nprint(text[2])',
+    ['P', 'y', 't', 'h'],
+    2
+  ],
 
   [
     'What is the output of the following code?\n\ntext = "Python"\nprint(text[-1])',
-    ['P', 'n', 'o', 'Error'],
+    ['P', 'n', 'o', 'h'],
     1
   ],
 
   [
-    'What is the output of the following code?\n\ntext = "Python"\nprint(text[1:5])',
-    ['Pyth', 'ytho', 'yth', 'ython'],
+    'What is the output of the following code?\n\ntext = "Python"\nprint(text[1:4])',
+    ['Pyt', 'yth', 'ytho', 'ython'],
     1
   ],
 
   [
-    'What is the output of the following code?\n\ntext = "Python"\nprint(text[::2])',
-    ['Pto', 'yhn', 'Ptoh', 'Python'],
+    'What is the output of the following code?\n\ntext = "Python"\nprint(text[:3])',
+    ['Pyt', 'yth', 'Python', 'Pyth'],
     0
   ],
 
   [
-    'What is the output of the following code?\n\ntext = "hello"\nprint(text.upper())',
-    ['hello', 'HELLO', 'Hello', 'Error'],
+    'What is the output of the following code?\n\ntext = "Python"\nprint(text[3:])',
+    ['Pyt', 'hon', 'thon', 'Python'],
+    2
+  ],
+
+  [
+    'What is the output of the following code?\n\ntext = "Python"\nprint(text[::-1])',
+    ['Python', 'nohtyP', 'nohty', 'Error'],
     1
   ],
 
   [
-    'Which method removes whitespace from both ends of a string?',
-    ['strip()', 'remove()', 'trim()', 'clean()'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\ntext = "Python Programming"\nprint(text.find("Pro"))',
-    ['6', '7', '8', '-1'],
+    'What is the output of the following code?\n\nnumbers = [10, 20, 30, 40, 50]\nprint(numbers[1:4])',
+    ['[10, 20, 30]', '[20, 30, 40]', '[20, 30, 40, 50]', '[10, 20, 30, 40]'],
     1
   ],
 
   [
-    'What is the output of the following code?\n\ntext = "Python"\nprint("Py" in text)',
-    ['True', 'False', 'Py', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\ntext = "Python"\nprint(text.replace("P", "J"))',
-    ['Python', 'Jython', 'Pjthon', 'Error'],
+    'What is the output of the following code?\n\nnumbers = [1, 2, 3, 4, 5]\nprint(numbers[::-1])',
+    ['[1, 2, 3, 4, 5]', '[5, 4, 3, 2, 1]', '[2, 3, 4, 5]', 'Error'],
     1
   ],
-
 
   // ============================================================
-  // 3. LISTS AND LIST OPERATIONS
+  // 3. LIST OPERATIONS
   // ============================================================
 
   [
-    'What is the output of the following code?\n\nnumbers = [10, 20, 30, 40]\nprint(numbers[1:3])',
-    ['[10, 20]', '[20, 30]', '[20, 30, 40]', '[10, 20, 30]'],
+    'What is the output of the following code?\n\nnumbers = [3, 1, 4, 2]\nnumbers.sort()\nprint(numbers)',
+    ['[3, 1, 4, 2]', '[1, 2, 3, 4]', '[4, 3, 2, 1]', 'Error'],
     1
   ],
 
   [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3]\nnumbers.extend([4, 5])\nprint(numbers)',
-    ['[1, 2, 3, [4, 5]]', '[1, 2, 3, 4, 5]', '[4, 5, 1, 2, 3]', 'Error'],
-    1
+    'What is the output of the following code?\n\nnumbers = [1, 2, 3]\nnumbers.append(4)\nprint(numbers)',
+    ['[4, 1, 2, 3]', '[1, 2, 3]', '[1, 2, 3, 4]', '[1, 2, 4, 3]'],
+    2
   ],
 
   [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3]\nnumbers.insert(1, 10)\nprint(numbers)',
-    ['[10, 1, 2, 3]', '[1, 10, 2, 3]', '[1, 2, 10, 3]', '[1, 2, 3, 10]'],
-    1
+    'What is the output of the following code?\n\nnumbers = [1, 2, 4]\nnumbers.insert(2, 3)\nprint(numbers)',
+    ['[1, 2, 3, 4]', '[1, 3, 2, 4]', '[3, 1, 2, 4]', '[1, 2, 4, 3]'],
+    0
   ],
 
   [
@@ -153,138 +138,209 @@ const questions = [
   ],
 
   [
-    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nprint(numbers.pop())',
-    ['10', '20', '30', '[10, 20]'],
+    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nprint(max(numbers))',
+    ['10', '20', '30', '60'],
     2
   ],
 
   [
-    'What is the output of the following code?\n\nnumbers = [3, 1, 2]\nresult = sorted(numbers)\nprint(numbers)',
-    ['[1, 2, 3]', '[3, 1, 2]', 'None', 'Error'],
-    1
+    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nprint(min(numbers))',
+    ['10', '20', '30', '0'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nlist1 = [1, 2]\nlist2 = [3, 4]\nprint(list1 + list2)',
+    ['[1, 2, 3, 4]', '[3, 4, 1, 2]', '[1, 2, [3, 4]]', 'Error'],
+    0
   ],
 
   [
     'What is the output of the following code?\n\nnumbers = [1, 2, 3]\nnumbers.reverse()\nprint(numbers)',
-    ['[1, 2, 3]', '[3, 2, 1]', '[2, 3, 1]', 'None'],
+    ['[1, 2, 3]', '[3, 2, 1]', '[2, 3, 1]', 'Error'],
     1
   ],
 
   [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3, 4, 5]\nprint(numbers[-3:])',
-    ['[1, 2, 3]', '[3, 4, 5]', '[2, 3, 4]', '[4, 5]'],
-    1
-  ],
-
-  [
-    'Which method returns the number of occurrences of a value in a list?',
-    ['count()', 'find()', 'occurrences()', 'index()'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nprint(len(numbers))',
-    ['2', '3', '30', 'Error'],
-    1
-  ],
-
-
-  // ============================================================
-  // 4. TUPLES, SETS AND DICTIONARIES
-  // ============================================================
-
-  [
-    'Which of the following is immutable?',
-    ['List', 'Set', 'Dictionary', 'Tuple'],
+    'What is the output of the following code?\n\nnumbers = [5, 2, 8, 1]\nnumbers.sort()\nprint(max(numbers))',
+    ['1', '2', '5', '8'],
     3
   ],
 
   [
-    'What is the output of the following code?\n\nx = (10, 20, 30)\nprint(x[1])',
-    ['10', '20', '30', 'Error'],
+    'Which operation merges two lists into a single list?',
+    ['list1 - list2', 'list1 + list2', 'list1 * list2', 'list1 / list2'],
+    1
+  ],
+
+  // ============================================================
+  // 4. ARITHMETIC OPERATORS AND PRECEDENCE
+  // ============================================================
+
+  [
+    'What is the output of the following expression?\n\n10 + 5 * 2',
+    ['30', '20', '25', '15'],
     1
   ],
 
   [
-    'What is the output of the following code?\n\nnumbers = {1, 2, 2, 3, 3}\nprint(len(numbers))',
-    ['3', '5', '4', 'Error'],
-    0
-  ],
-
-  [
-    'Which collection automatically removes duplicate values?',
-    ['List', 'Tuple', 'Set', 'Dictionary'],
+    'What is the output of the following expression?\n\n(10 + 5) * 2',
+    ['20', '25', '30', '15'],
     2
   ],
 
   [
-    'What is the output of the following code?\n\ndata = {"name": "John", "age": 25}\nprint(data["age"])',
-    ['name', 'John', '25', 'Error'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\ndata = {"a": 10, "b": 20}\ndata["c"] = 30\nprint(len(data))',
-    ['2', '3', '30', 'Error'],
+    'What is the output of the following expression?\n\n20 - 6 / 2',
+    ['7.0', '17.0', '14', '10'],
     1
   ],
 
   [
-    'Which dictionary method returns all keys?',
-    ['keys()', 'values()', 'items()', 'getkeys()'],
-    0
+    'What is the output of the following expression?\n\n2 ** 3 ** 2',
+    ['64', '512', '36', '256'],
+    1
   ],
 
   [
-    'What is the output of the following code?\n\ndata = {"a": 10}\nprint(data.get("b", 0))',
-    ['10', 'b', '0', 'None'],
+    'What is the output of the following expression?\n\n-5 + 3',
+    ['-8', '-2', '2', '8'],
+    1
+  ],
+
+  [
+    'What is the output of the following expression?\n\n17 // 5',
+    ['2', '3', '3.4', '4'],
+    1
+  ],
+
+  [
+    'What is the output of the following expression?\n\n17 % 5',
+    ['0', '1', '2', '3'],
     2
   ],
 
-
   // ============================================================
-  // 5. CONDITIONAL STATEMENTS
+  // 5. ASSIGNMENT OPERATORS
   // ============================================================
 
   [
-    'What is the output of the following code?\n\nx = 12\nif x % 2 == 0:\n    print("Even")\nelse:\n    print("Odd")',
-    ['Even', 'Odd', '12', 'Error'],
+    'What is the output of the following code?\n\nx = 10\nx += 5\nprint(x)',
+    ['5', '10', '15', '50'],
+    2
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 20\nx -= 7\nprint(x)',
+    ['13', '14', '27', '7'],
     0
   ],
 
   [
-    'What is the output of the following code?\n\nx = 25\nif x > 10:\n    if x > 20:\n        print("A")\n    else:\n        print("B")\nelse:\n    print("C")',
+    'What is the output of the following code?\n\nx = 20\nx //= 3\nprint(x)',
+    ['6', '6.66', '7', '3'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 2\nx **= 3\nprint(x)',
+    ['5', '6', '8', '9'],
+    2
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 15\nx %= 4\nprint(x)',
+    ['2', '3', '4', '15'],
+    1
+  ],
+
+  // ============================================================
+  // 6. COMPARISON, LOGICAL, IDENTITY AND CONTAINMENT
+  // ============================================================
+
+  [
+    'What is the output of the following expression?\n\n10 >= 10',
+    ['True', 'False', '10', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of the following expression?\n\n10 != 10',
+    ['True', 'False', '10', 'None'],
+    1
+  ],
+
+  [
+    'What is the output of the following expression?\n\n10 > 5 and 3 < 2',
+    ['True', 'False', '10', 'Error'],
+    1
+  ],
+
+  [
+    'What is the output of the following expression?\n\n10 > 5 or 3 < 2',
+    ['True', 'False', '10', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of the following expression?\n\nnot (10 > 5)',
+    ['True', 'False', '10', 'Error'],
+    1
+  ],
+
+  [
+    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nprint(20 in numbers)',
+    ['True', 'False', '20', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nprint(40 not in numbers)',
+    ['True', 'False', '40', 'Error'],
+    0
+  ],
+
+  [
+    'Which operator checks whether two variables refer to the same object?',
+    ['==', 'is', 'in', '=', '!='],
+    1
+  ],
+
+  // ============================================================
+  // 7. IF, ELIF, ELSE AND COMPOUND CONDITIONS
+  // ============================================================
+
+  [
+    'What is the output of the following code?\n\nx = 15\nif x > 10:\n    print("A")\nelse:\n    print("B")',
+    ['A', 'B', '15', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 15\nif x > 20:\n    print("A")\nelif x > 10:\n    print("B")\nelse:\n    print("C")',
     ['A', 'B', 'C', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 5\nif x > 2 and x < 10:\n    print("Yes")\nelse:\n    print("No")',
-    ['Yes', 'No', 'True', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 8\nif x < 5 or x > 7:\n    print("Valid")\nelse:\n    print("Invalid")',
-    ['Valid', 'Invalid', '8', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 10\nresult = "Even" if x % 2 == 0 else "Odd"\nprint(result)',
-    ['Even', 'Odd', 'True', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 15\nif x > 20:\n    print("A")\nelif x > 10:\n    print("B")\nelif x > 5:\n    print("C")\nelse:\n    print("D")',
-    ['A', 'B', 'C', 'D'],
     1
   ],
 
+  [
+    'What is the output of the following code?\n\nx = 8\nif x > 5 and x < 10:\n    print("Valid")\nelse:\n    print("Invalid")',
+    ['Valid', 'Invalid', 'True', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 12\nif x < 5 or x > 10:\n    print("Yes")\nelse:\n    print("No")',
+    ['Yes', 'No', '12', 'Error'],
+    0
+  ],
+
+  [
+    'What is the output of the following code?\n\nx = 7\nif x >= 5 and x <= 7:\n    print("A")\nelse:\n    print("B")',
+    ['A', 'B', 'True', 'Error'],
+    0
+  ],
 
   // ============================================================
-  // 6. LOOPS
+  // 8. LOOPS
   // ============================================================
 
   [
@@ -300,9 +356,9 @@ const questions = [
   ],
 
   [
-    'What is the output of the following code?\n\nx = 0\nfor i in range(3):\n    x += i\nprint(x)',
-    ['3', '6', '2', '0'],
-    0
+    'What is the output of the following code?\n\nx = 0\nfor i in range(1, 5):\n    x += i\nprint(x)',
+    ['5', '10', '15', '20'],
+    1
   ],
 
   [
@@ -318,408 +374,65 @@ const questions = [
   ],
 
   [
-    'What is the output of the following code?\n\nx = 1\nwhile x < 4:\n    print(x, end=" ")\n    x += 1',
-    ['1 2 3', '1 2 3 4', '0 1 2', 'Infinite loop'],
+    'What is the output of the following code?\n\nx = 1\nwhile x < 5:\n    print(x, end=" ")\n    x += 1',
+    ['1 2 3 4', '1 2 3 4 5', '0 1 2 3', 'Infinite loop'],
     0
   ],
 
   [
-    'How many times does this loop execute?\n\nfor i in range(2, 10, 2):\n    print(i)',
-    ['3', '4', '5', '6'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nfor i in range(3):\n    for j in range(2):\n        print(i, j)',
-    ['6 lines', '5 lines', '3 lines', '2 lines'],
+    'What is the output of the following code?\n\nx = 2\nwhile x <= 8:\n    print(x, end=" ")\n    x += 2',
+    ['2 4 6 8', '2 4 6', '1 2 3 4', '2 3 4 5 6 7 8'],
     0
   ],
 
+  [
+    'What happens when the pass statement is executed inside a loop?',
+    [
+      'The loop terminates',
+      'The current iteration is skipped',
+      'Nothing happens and execution continues',
+      'The program stops'
+    ],
+    2
+  ],
 
   // ============================================================
-  // 7. NESTED LOOPS AND PATTERNS
+  // 9. NESTED LOOPS AND CONDITIONAL LOOPS
   // ============================================================
 
   [
-    'What is the output of the following code?\n\nfor i in range(3):\n    for j in range(3):\n        print("*", end="")\n    print()',
-    ['***\\n***\\n***', '***', '**\\n**\\n**', 'Error'],
-    0
-  ],
-
-  [
-    'How many times does the inner loop execute in total?\n\nfor i in range(4):\n    for j in range(3):\n        print(j)',
-    ['3', '4', '7', '12'],
+    'How many times will the inner print statement execute?\n\nfor i in range(3):\n    for j in range(2):\n        print("*")',
+    ['2', '3', '5', '6'],
     3
   ],
 
   [
-    'What is the output of the following code?\n\nfor i in range(1, 4):\n    print(i * 2, end=" ")',
-    ['1 2 3', '2 4 6', '0 2 4', '2 3 4'],
-    1
-  ],
-
-
-  // ============================================================
-  // 8. FUNCTIONS
-  // ============================================================
-
-  [
-    'Which keyword is used to define a function in Python?',
-    ['function', 'define', 'def', 'fun'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\ndef add(a, b):\n    return a + b\n\nprint(add(3, 4))',
-    ['3', '4', '7', '34'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\ndef greet(name="User"):\n    print("Hello", name)\n\ngreet()',
-    ['Hello', 'Hello User', 'User', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\ndef square(x):\n    return x * x\n\nresult = square(5)\nprint(result)',
-    ['10', '20', '25', 'Error'],
-    2
-  ],
-
-  [
-    'What happens if a function does not explicitly use a return statement?',
-    ['It returns 0', 'It returns False', 'It returns None', 'It causes an error'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\ndef test(x):\n    x += 5\n    return x\n\nx = 10\nprint(test(x))',
-    ['10', '15', '5', 'Error'],
-    1
-  ],
-
-  [
-    'Which type of argument is passed using the parameter name?',
-    ['Positional argument', 'Keyword argument', 'Default argument', 'Loop argument'],
-    1
-  ],
-
-
-  // ============================================================
-  // 9. LIST COMPREHENSION
-  // ============================================================
-
-  [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3, 4]\nresult = [x * 2 for x in numbers]\nprint(result)',
-    ['[1, 2, 3, 4]', '[2, 4, 6, 8]', '[1, 4, 9, 16]', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3, 4, 5]\nresult = [x for x in numbers if x % 2 == 0]\nprint(result)',
-    ['[1, 3, 5]', '[2, 4]', '[1, 2, 3, 4, 5]', 'Error'],
-    1
-  ],
-
-  [
-    'Which of the following creates a list containing squares from 1 to 5?',
-    ['[x for x in range(1, 6)]',
-     '[x * x for x in range(1, 6)]',
-     '[x + x for x in range(1, 5)]',
-     '[x ** 2 for x in range(5)]'],
-    1
-  ],
-
-
-  // ============================================================
-  // 10. SCOPE AND VARIABLES
-  // ============================================================
-
-  [
-    'What is the output of the following code?\n\nx = 10\n\ndef test():\n    x = 20\n    print(x)\n\ntest()\nprint(x)',
-    ['20 20', '10 10', '20 10', '10 20'],
-    2
-  ],
-
-  [
-    'Which variable is accessible throughout the entire function where it is defined?',
-    ['Global variable', 'Local variable', 'Class variable', 'External variable'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 10\n\ndef test():\n    global x\n    x = 20\n\ntest()\nprint(x)',
-    ['10', '20', 'None', 'Error'],
-    1
-  ],
-
-
-  // ============================================================
-  // 11. EXCEPTIONS
-  // ============================================================
-
-  [
-    'Which block is used to handle exceptions in Python?',
-    ['try-except', 'if-else', 'for-except', 'error-handle'],
-    0
-  ],
-
-  [
-    'What type of error occurs when dividing a number by zero?',
-    ['ValueError', 'TypeError', 'ZeroDivisionError', 'NameError'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\ntry:\n    x = 10 / 0\nexcept ZeroDivisionError:\n    print("Cannot divide")',
-    ['10', '0', 'Cannot divide', 'Error'],
-    2
-  ],
-
-  [
-    'Which block executes whether an exception occurs or not?',
-    ['except', 'else', 'finally', 'error'],
-    2
-  ],
-
-  [
-    'What exception occurs when trying to access a list index that does not exist?',
-    ['IndexError', 'KeyError', 'ValueError', 'TypeError'],
-    0
-  ],
-
-
-  // ============================================================
-  // 12. MODULES AND BUILT-IN FUNCTIONS
-  // ============================================================
-
-  [
-    'Which keyword is used to import a module?',
-    ['include', 'import', 'using', 'require'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nimport math\nprint(math.sqrt(25))',
-    ['5', '5.0', '25', 'Error'],
-    1
-  ],
-
-  [
-    'Which built-in function returns the absolute value of a number?',
-    ['absolute()', 'abs()', 'absolute_value()', 'value()'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nprint(abs(-15))',
-    ['-15', '15', '0', 'Error'],
-    1
-  ],
-
-  [
-    'What does the len() function return?',
-    ['The largest value', 'The data type', 'The number of items', 'The memory address'],
-    2
-  ],
-
-
-  // ============================================================
-  // 13. IDENTITY, MEMBERSHIP AND COMPARISON
-  // ============================================================
-
-  [
-    'Which operator checks whether two variables refer to the same object?',
-    ['==', '=', 'is', 'in'],
-    2
-  ],
-
-  [
-    'Which operator checks whether a value exists inside a collection?',
-    ['is', 'in', '==', 'contains'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3]\nprint(4 not in numbers)',
-    ['True', 'False', '4', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 10\ny = 10\nprint(x == y)',
-    ['True', 'False', '10', 'Error'],
-    0
-  ],
-
-
-  // ============================================================
-  // 14. ADVANCED OUTPUT-BASED QUESTIONS
-  // ============================================================
-
-  [
-    'What is the output of the following code?\n\nx = [1, 2, 3]\ny = x\ny.append(4)\nprint(x)',
-    ['[1, 2, 3]', '[1, 2, 3, 4]', '[4, 1, 2, 3]', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = [1, 2, 3]\ny = x.copy()\ny.append(4)\nprint(x)',
-    ['[1, 2, 3]', '[1, 2, 3, 4]', '[4, 1, 2, 3]', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3, 4]\nprint(sum(numbers))',
-    ['8', '9', '10', '11'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [5, 10, 15]\nprint(max(numbers) - min(numbers))',
-    ['5', '10', '15', '20'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 10\nif x:\n    print("A")\nelse:\n    print("B")',
-    ['A', 'B', '10', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = []\nif x:\n    print("A")\nelse:\n    print("B")',
-    ['A', 'B', '[]', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nresult = 0\nfor i in range(1, 5):\n    result += i\nprint(result)',
-    ['5', '10', '15', '20'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [2, 4, 6, 8]\nprint(numbers[::2])',
-    ['[2, 4]', '[4, 8]', '[2, 6]', '[6, 8]'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = "Python"\nprint(len(x) + 2)',
-    ['6', '7', '8', '9'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3]\nresult = numbers + [4, 5]\nprint(result)',
-    ['[1, 2, 3, 4, 5]', '[5, 4, 1, 2, 3]', '[1, 2, 3, [4, 5]]', 'Error'],
-    0
-  ],
-
-
-  // ============================================================
-  // 15. PVM AND PYTHON EXECUTION
-  // ============================================================
-
-  [
-    'What is the primary role of the Python Virtual Machine (PVM)?',
+    'What is the output of the following code?\n\nfor i in range(3):\n    for j in range(2):\n        print(i, j)',
     [
-      'To write Python programs',
-      'To execute Python bytecode',
-      'To convert Python into HTML',
-      'To manage database connections'
+      '0 0\\n0 1\\n1 0\\n1 1\\n2 0\\n2 1',
+      '0 0\\n1 1\\n2 2',
+      '0 1\\n1 2\\n2 3',
+      '0 0\\n0 1\\n1 1'
     ],
-    1
-  ],
-
-  [
-    'What is Python source code generally compiled into before execution by the PVM?',
-    ['Machine code', 'Bytecode', 'HTML', 'Assembly only'],
-    1
-  ],
-
-  [
-    'Which file extension is commonly associated with Python bytecode files?',
-    ['.py', '.exe', '.pyc', '.pvm'],
-    2
-  ],
-
-  [
-    'What happens when Python encounters an exception that is not handled?',
-    [
-      'Python ignores it',
-      'Python automatically fixes it',
-      'Program execution stops and an error traceback is displayed',
-      'Python restarts the program'
-    ],
-    2
-  ],
-
-
-  // ============================================================
-  // 16. MIXED MEDIUM-LEVEL QUESTIONS
-  // ============================================================
-
-  [
-    'What is the output of the following code?\n\nx = 5\ny = 10\nprint(x < y and y > 5)',
-    ['True', 'False', '5', 'Error'],
     0
   ],
 
   [
-    'What is the output of the following code?\n\nx = 5\ny = 10\nprint(x > y or y == 10)',
-    ['True', 'False', '10', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3, 4, 5]\nresult = [x for x in numbers if x > 2]\nprint(result)',
-    ['[1, 2]', '[3, 4, 5]', '[2, 3, 4]', '[1, 2, 3, 4, 5]'],
+    'What is the output of the following code?\n\nfor i in range(1, 5):\n    if i % 2 == 0:\n        print(i, end=" ")',
+    ['1 3', '2 4', '1 2 3 4', '0 2 4'],
     1
   ],
 
   [
-    'What is the output of the following code?\n\ndata = {"a": 1, "b": 2}\nprint("a" in data)',
-    ['True', 'False', '1', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 10\nfor i in range(2):\n    x += 5\nprint(x)',
-    ['10', '15', '20', '25'],
+    'What is the output of the following code?\n\nfor i in range(1, 6):\n    if i > 2 and i < 5:\n        print(i, end=" ")',
+    ['1 2', '2 3 4', '3 4', '3 4 5'],
     2
   ],
 
   [
-    'What is the output of the following code?\n\nx = [1, 2, 3]\nprint(x * 2)',
-    ['[2, 4, 6]', '[1, 2, 3, 1, 2, 3]', '[1, 2, 6]', 'Error'],
+    'What is the output of the following code?\n\nfor i in range(5):\n    if i == 2:\n        pass\n    print(i, end=" ")',
+    ['0 1 3 4', '0 1 2 3 4', '2', '0 1'],
     1
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = "abc"\nprint(x * 3)',
-    ['abc3', 'abcabcabc', '3abc', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 10\nprint("Even" if x % 2 == 0 else "Odd")',
-    ['Even', 'Odd', 'True', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nfor n in numbers:\n    if n == 20:\n        continue\n    print(n, end=" ")',
-    ['10 20 30', '10 30', '20', '30'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 1\nwhile x <= 5:\n    x += 2\nprint(x)',
-    ['5', '6', '7', '8'],
-    2
   ]
 
 ];

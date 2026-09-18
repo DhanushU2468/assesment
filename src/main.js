@@ -207,18 +207,7 @@ const questions = [
     1
   ],
 
-  [
-    'What is the output of the following expression?\n\n17 // 5',
-    ['2', '3', '3.4', '4'],
-    1
-  ],
-
-  [
-    'What is the output of the following expression?\n\n17 % 5',
-    ['0', '1', '2', '3'],
-    2
-  ],
-
+ 
   // ============================================================
   // 5. ASSIGNMENT OPERATORS
   // ============================================================
@@ -309,17 +298,6 @@ const questions = [
   // 7. IF, ELIF, ELSE AND COMPOUND CONDITIONS
   // ============================================================
 
-  [
-    'What is the output of the following code?\n\nx = 15\nif x > 10:\n    print("A")\nelse:\n    print("B")',
-    ['A', 'B', '15', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 15\nif x > 20:\n    print("A")\nelif x > 10:\n    print("B")\nelse:\n    print("C")',
-    ['A', 'B', 'C', 'Error'],
-    1
-  ],
 
   [
     'What is the output of the following code?\n\nx = 8\nif x > 5 and x < 10:\n    print("Valid")\nelse:\n    print("Invalid")',
@@ -349,52 +327,7 @@ const questions = [
     1
   ],
 
-  [
-    'What is the output of the following code?\n\nfor i in range(1, 6, 2):\n    print(i, end=" ")',
-    ['1 2 3 4 5', '1 3 5', '2 4 6', '1 3 4'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 0\nfor i in range(1, 5):\n    x += i\nprint(x)',
-    ['5', '10', '15', '20'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nfor i in range(5):\n    if i == 3:\n        break\n    print(i, end=" ")',
-    ['0 1 2', '0 1 2 3', '1 2 3', '0 1 2 4'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nfor i in range(5):\n    if i == 2:\n        continue\n    print(i, end=" ")',
-    ['0 1 2 3 4', '0 1 3 4', '1 2 3 4', '0 1'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 1\nwhile x < 5:\n    print(x, end=" ")\n    x += 1',
-    ['1 2 3 4', '1 2 3 4 5', '0 1 2 3', 'Infinite loop'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 2\nwhile x <= 8:\n    print(x, end=" ")\n    x += 2',
-    ['2 4 6 8', '2 4 6', '1 2 3 4', '2 3 4 5 6 7 8'],
-    0
-  ],
-
-  [
-    'What happens when the pass statement is executed inside a loop?',
-    [
-      'The loop terminates',
-      'The current iteration is skipped',
-      'Nothing happens and execution continues',
-      'The program stops'
-    ],
-    2
-  ],
+ 
 
   // ============================================================
   // 9. NESTED LOOPS AND CONDITIONAL LOOPS
@@ -406,16 +339,7 @@ const questions = [
     3
   ],
 
-  [
-    'What is the output of the following code?\n\nfor i in range(3):\n    for j in range(2):\n        print(i, j)',
-    [
-      '0 0\\n0 1\\n1 0\\n1 1\\n2 0\\n2 1',
-      '0 0\\n1 1\\n2 2',
-      '0 1\\n1 2\\n2 3',
-      '0 0\\n0 1\\n1 1'
-    ],
-    0
-  ],
+  
 
   [
     'What is the output of the following code?\n\nfor i in range(1, 5):\n    if i % 2 == 0:\n        print(i, end=" ")',
@@ -423,17 +347,7 @@ const questions = [
     1
   ],
 
-  [
-    'What is the output of the following code?\n\nfor i in range(1, 6):\n    if i > 2 and i < 5:\n        print(i, end=" ")',
-    ['1 2', '2 3 4', '3 4', '3 4 5'],
-    2
-  ],
 
-  [
-    'What is the output of the following code?\n\nfor i in range(5):\n    if i == 2:\n        pass\n    print(i, end=" ")',
-    ['0 1 3 4', '0 1 2 3 4', '2', '0 1'],
-    1
-  ]
 
 ];
 const state = { screen: 'welcome', candidate: null, answers: {}, question: 0, remaining: DURATION_SECONDS, warnings: 0, timer: null, submitted: false };

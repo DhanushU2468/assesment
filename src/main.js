@@ -4,352 +4,168 @@ const STORAGE_KEY = 'northstar-assessment-results';
 const DURATION_SECONDS = 50 * 60;
 const MAX_WARNINGS = 3;
 const ADMIN_KEY = 'northstar-admin-auth';
-const questions = [
-  // ============================================================
-  // 1. DATA TYPES AND TYPE CONVERSION
-  // ============================================================
-
-  [
-    'What is the output of the following code?\n\nx = 10\ny = 2.5\nprint(type(x), type(y))',
-    ["<class 'int'> <class 'float'>", "<class 'float'> <class 'int'>", "<class 'str'> <class 'float'>", "<class 'int'> <class 'int'>"],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = "25"\ny = int(x)\nprint(type(y))',
-    ["<class 'str'>", "<class 'float'>", "<class 'int'>", "<class 'bool'>"],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 10\ny = float(x)\nprint(y)',
-    ['10', '10.0', '"10"', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 0\nprint(bool(x))',
-    ['True', 'False', '0', 'None'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = "0"\nprint(bool(x))',
-    ['True', 'False', '0', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 12.8\nprint(int(x))',
-    ['12', '13', '12.8', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 5\ny = 2\nprint(float(x // y))',
-    ['2', '2.0', '2.5', 'Error'],
-    1
-  ],
-
-  [
-    'Which conversion correctly converts the string "45.6" into a floating-point value?',
-    ['int("45.6")', 'float("45.6")', 'str("45.6")', 'bool("45.6")'],
-    1
-  ],
-
-  // ============================================================
-  // 2. INDEXING AND SLICING
-  // ============================================================
-
-  [
-    'What is the output of the following code?\n\ntext = "Python"\nprint(text[2])',
-    ['P', 'y', 't', 'h'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\ntext = "Python"\nprint(text[-1])',
-    ['P', 'n', 'o', 'h'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\ntext = "Python"\nprint(text[1:4])',
-    ['Pyt', 'yth', 'ytho', 'ython'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\ntext = "Python"\nprint(text[:3])',
-    ['Pyt', 'yth', 'Python', 'Pyth'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\ntext = "Python"\nprint(text[3:])',
-    ['Pyt', 'hon', 'thon', 'Python'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\ntext = "Python"\nprint(text[::-1])',
-    ['Python', 'nohtyP', 'nohty', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [10, 20, 30, 40, 50]\nprint(numbers[1:4])',
-    ['[10, 20, 30]', '[20, 30, 40]', '[20, 30, 40, 50]', '[10, 20, 30, 40]'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3, 4, 5]\nprint(numbers[::-1])',
-    ['[1, 2, 3, 4, 5]', '[5, 4, 3, 2, 1]', '[2, 3, 4, 5]', 'Error'],
-    1
-  ],
-
-  // ============================================================
-  // 3. LIST OPERATIONS
-  // ============================================================
-
-  [
-    'What is the output of the following code?\n\nnumbers = [3, 1, 4, 2]\nnumbers.sort()\nprint(numbers)',
-    ['[3, 1, 4, 2]', '[1, 2, 3, 4]', '[4, 3, 2, 1]', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3]\nnumbers.append(4)\nprint(numbers)',
-    ['[4, 1, 2, 3]', '[1, 2, 3]', '[1, 2, 3, 4]', '[1, 2, 4, 3]'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 4]\nnumbers.insert(2, 3)\nprint(numbers)',
-    ['[1, 2, 3, 4]', '[1, 3, 2, 4]', '[3, 1, 2, 4]', '[1, 2, 4, 3]'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3, 2]\nnumbers.remove(2)\nprint(numbers)',
-    ['[1, 3, 2]', '[1, 2, 3]', '[1, 3]', '[2, 1, 3]'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nprint(max(numbers))',
-    ['10', '20', '30', '60'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nprint(min(numbers))',
-    ['10', '20', '30', '0'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nlist1 = [1, 2]\nlist2 = [3, 4]\nprint(list1 + list2)',
-    ['[1, 2, 3, 4]', '[3, 4, 1, 2]', '[1, 2, [3, 4]]', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [1, 2, 3]\nnumbers.reverse()\nprint(numbers)',
-    ['[1, 2, 3]', '[3, 2, 1]', '[2, 3, 1]', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [5, 2, 8, 1]\nnumbers.sort()\nprint(max(numbers))',
-    ['1', '2', '5', '8'],
-    3
-  ],
-
-  [
-    'Which operation merges two lists into a single list?',
-    ['list1 - list2', 'list1 + list2', 'list1 * list2', 'list1 / list2'],
-    1
-  ],
-
-  // ============================================================
-  // 4. ARITHMETIC OPERATORS AND PRECEDENCE
-  // ============================================================
-
-  [
-    'What is the output of the following expression?\n\n10 + 5 * 2',
-    ['30', '20', '25', '15'],
-    1
-  ],
-
-  [
-    'What is the output of the following expression?\n\n(10 + 5) * 2',
-    ['20', '25', '30', '15'],
-    2
-  ],
-
-  [
-    'What is the output of the following expression?\n\n20 - 6 / 2',
-    ['7.0', '17.0', '14', '10'],
-    1
-  ],
-
-  [
-    'What is the output of the following expression?\n\n2 ** 3 ** 2',
-    ['64', '512', '36', '256'],
-    1
-  ],
-
-  [
-    'What is the output of the following expression?\n\n-5 + 3',
-    ['-8', '-2', '2', '8'],
-    1
-  ],
-
- 
-  // ============================================================
-  // 5. ASSIGNMENT OPERATORS
-  // ============================================================
-
-  [
-    'What is the output of the following code?\n\nx = 10\nx += 5\nprint(x)',
-    ['5', '10', '15', '50'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 20\nx -= 7\nprint(x)',
-    ['13', '14', '27', '7'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 20\nx //= 3\nprint(x)',
-    ['6', '6.66', '7', '3'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 2\nx **= 3\nprint(x)',
-    ['5', '6', '8', '9'],
-    2
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 15\nx %= 4\nprint(x)',
-    ['2', '3', '4', '15'],
-    1
-  ],
-
-  // ============================================================
-  // 6. COMPARISON, LOGICAL, IDENTITY AND CONTAINMENT
-  // ============================================================
-
-  [
-    'What is the output of the following expression?\n\n10 >= 10',
-    ['True', 'False', '10', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following expression?\n\n10 != 10',
-    ['True', 'False', '10', 'None'],
-    1
-  ],
-
-  [
-    'What is the output of the following expression?\n\n10 > 5 and 3 < 2',
-    ['True', 'False', '10', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following expression?\n\n10 > 5 or 3 < 2',
-    ['True', 'False', '10', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following expression?\n\nnot (10 > 5)',
-    ['True', 'False', '10', 'Error'],
-    1
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nprint(20 in numbers)',
-    ['True', 'False', '20', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nnumbers = [10, 20, 30]\nprint(40 not in numbers)',
-    ['True', 'False', '40', 'Error'],
-    0
-  ],
-
-  [
-    'Which operator checks whether two variables refer to the same object?',
-    ['==', 'is', 'in', '=', '!='],
-    1
-  ],
-
-  // ============================================================
-  // 7. IF, ELIF, ELSE AND COMPOUND CONDITIONS
-  // ============================================================
-
-
-  [
-    'What is the output of the following code?\n\nx = 8\nif x > 5 and x < 10:\n    print("Valid")\nelse:\n    print("Invalid")',
-    ['Valid', 'Invalid', 'True', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 12\nif x < 5 or x > 10:\n    print("Yes")\nelse:\n    print("No")',
-    ['Yes', 'No', '12', 'Error'],
-    0
-  ],
-
-  [
-    'What is the output of the following code?\n\nx = 7\nif x >= 5 and x <= 7:\n    print("A")\nelse:\n    print("B")',
-    ['A', 'B', 'True', 'Error'],
-    0
-  ],
-
-  // ============================================================
-  // 8. LOOPS
-  // ============================================================
-
-  [
-    'What is the output of the following code?\n\nfor i in range(2, 6):\n    print(i, end=" ")',
-    ['1 2 3 4 5', '2 3 4 5', '2 3 4 5 6', '1 2 3 4'],
-    1
-  ],
-
- 
-
-  // ============================================================
-  // 9. NESTED LOOPS AND CONDITIONAL LOOPS
-  // ============================================================
-
-  [
-    'How many times will the inner print statement execute?\n\nfor i in range(3):\n    for j in range(2):\n        print("*")',
-    ['2', '3', '5', '6'],
-    3
-  ],
-
-  
-
-  [
-    'What is the output of the following code?\n\nfor i in range(1, 5):\n    if i % 2 == 0:\n        print(i, end=" ")',
-    ['1 3', '2 4', '1 2 3 4', '0 2 4'],
-    1
-  ],
-
-
-
-];
+ const questions = [
+
+    // SECTION 1: AI PROBLEM DEFINITION (12)
+
+    ["What is the first step in developing an AI solution?",
+      ["Identify the problem", "Deploy the model", "Delete the data", "Create a dashboard"], 0],
+
+    ["What does identifying a business need mean?",
+      ["Understanding what problem needs to be solved", "Choosing a computer", "Writing code immediately", "Deleting old records"], 0],
+
+    ["In an AI project, what is an input?",
+      ["Information given to the system", "The final prediction", "The model's accuracy", "The output report only"], 0],
+
+    ["What is an output in an AI system?",
+      ["The result produced by the system", "The raw computer hardware", "The training budget", "The input dataset"], 0],
+
+    ["When should AI be used?",
+      ["When it is suitable for solving the problem", "For every problem", "Only when there is no data", "Whenever a spreadsheet is available"], 0],
+
+    ["Which is a possible benefit of AI?",
+      ["Automating repetitive tasks", "Guaranteeing every prediction is correct", "Removing all security risks", "Eliminating the need for data"], 0],
+
+    ["What is a measurable success criterion?",
+      ["A target that can be measured", "A general opinion", "An unrelated activity", "A random prediction"], 0],
+
+    ["What is a domain expert?",
+      ["A person with knowledge of a specific subject or industry", "A person who only installs computers", "A person who deletes datasets", "A person who only designs logos"], 0],
+
+    ["Why is a security plan important in an AI project?",
+      ["To protect data and systems", "To increase duplicate records", "To remove all features", "To avoid testing the model"], 0],
+
+    ["What is an example of an AI security threat?",
+      ["Adversarial attack", "Sorting a spreadsheet", "Formatting a cell", "Creating a chart"], 0],
+
+    ["What is AI bias?",
+      ["Unfair or systematic errors affecting certain groups", "A type of computer memory", "A method of sorting data", "A type of spreadsheet formula"], 0],
+
+    ["Why should an AI project document its data decisions?",
+      ["To explain assumptions and support transparency", "To hide the data from everyone", "To avoid checking accuracy", "To remove the need for testing"], 0],
+
+    // SECTION 2: MACHINE LEARNING TYPES (10)
+
+    ["What is supervised learning?",
+      ["Learning from labeled data", "Learning without any data", "Learning only by playing games", "Learning without examples"], 0],
+
+    ["Which is an example of classification?",
+      ["Predicting whether an email is spam or not spam", "Predicting tomorrow's temperature as a number", "Grouping customers without labels", "Calculating the sum of sales"], 0],
+
+    ["Which is an example of regression?",
+      ["Predicting the price of a house", "Classifying an email as spam", "Grouping similar customers", "Identifying customer segments without labels"], 0],
+
+    ["What is unsupervised learning?",
+      ["Finding patterns in unlabeled data", "Learning only from labeled answers", "Learning only from rewards", "Learning from fixed rules only"], 0],
+
+    ["Which is an example of unsupervised learning?",
+      ["Grouping customers based on purchasing behavior", "Predicting a labeled student's pass or fail", "Predicting a house price", "Classifying images with known labels"], 0],
+
+    ["What is semi-supervised learning?",
+      ["Using a small amount of labeled data and a large amount of unlabeled data", "Using only labeled data", "Using no data", "Using only rewards"], 0],
+
+    ["Which situation is suitable for semi-supervised learning?",
+      ["A few labeled images and many unlabeled images", "Every image has a label and there are no unlabeled images", "No images are available", "Only numerical calculations are required"], 0],
+
+    ["What is reinforcement learning?",
+      ["Learning through actions, rewards, and penalties", "Learning only from labeled tables", "Grouping data without labels", "Learning by deleting records"], 0],
+
+    ["In reinforcement learning, what encourages an agent to repeat a useful action?",
+      ["Reward", "Missing value", "Duplicate record", "Column name"], 0],
+
+    ["Which algorithm is commonly used for clustering?",
+      ["K-Means", "Linear Regression", "Logistic Regression", "Decision Tree for labeled classification"], 0],
+
+    // SECTION 3: TYPES OF DATA AND DATA COLLECTION (8)
+
+    ["Which of the following is structured data?",
+      ["A table containing names and ages", "An audio recording", "A video file", "An image"], 0],
+
+    ["Which is an example of unstructured data?",
+      ["A collection of videos", "A table of student marks", "A spreadsheet with fixed columns", "A relational database table"], 0],
+
+    ["Which is an example of semi-structured data?",
+      ["JSON data", "A plain photograph", "An audio recording", "A handwritten drawing"], 0],
+
+    ["Which is an example of numerical data?",
+      ["Student age", "Student photograph", "Voice recording", "Written essay"], 0],
+
+    ["Which is an example of categorical data?",
+      ["Blood group", "Temperature in degrees", "Height in centimeters", "Monthly salary"], 0],
+
+    ["What is labeled data?",
+      ["Data that includes the correct target or answer", "Data with no values", "Data containing only images", "Data that has been deleted"], 0],
+
+    ["What is data quality checking?",
+      ["Checking for missing, incorrect, or corrupt values", "Changing every value to zero", "Deleting all columns", "Increasing file size"], 0],
+
+    ["Why should a dataset represent different user groups?",
+      ["To reduce bias and improve fairness", "To make the dataset smaller at any cost", "To avoid model evaluation", "To remove all categories"], 0],
+
+    // SECTION 4: PROCESSING, FEATURES AND TRAIN/TEST (8)
+
+    ["What is data preprocessing?",
+      ["Preparing raw data for use by a model", "Deleting the AI model", "Creating a business logo", "Installing a printer"], 0],
+
+    ["What is a feature in machine learning?",
+      ["An input variable used by a model", "The final answer only", "A type of computer screen", "A model's file name"], 0],
+
+    ["What is feature engineering?",
+      ["Creating or transforming features to help a model learn", "Deleting all input data", "Only changing the color of charts", "Installing an operating system"], 0],
+
+    ["What is tokenization in text processing?",
+      ["Breaking text into smaller units called tokens", "Converting text into a chart", "Deleting all words", "Sorting images by size"], 0],
+
+    ["How is a digital image commonly represented for AI?",
+      ["As numerical pixel values", "As handwritten paragraphs only", "As sound waves only", "As spreadsheet formulas"], 0],
+
+    ["What is the purpose of a training dataset?",
+      ["To teach the model patterns", "To display only the final report", "To store passwords", "To replace the test dataset completely"], 0],
+
+    ["What is the purpose of a test dataset?",
+      ["To evaluate the model on data not used for training", "To train the model repeatedly", "To store source code", "To remove all features"], 0],
+
+    ["Why should data decisions be documented?",
+      ["To record assumptions, constraints, and processing choices", "To hide project details", "To avoid data collection", "To guarantee 100% accuracy"], 0],
+
+    // SECTION 5: BASIC PANDAS (12)
+
+    ["What is Pandas in Python mainly used for?",
+      ["Data manipulation and analysis", "Creating computer hardware", "Editing videos", "Building operating systems"], 0],
+
+    ["Which command imports the Pandas library?",
+      ["import pandas as pd", "import pandas as np", "include pandas", "using pandas"], 0],
+
+    ["Which Pandas function creates a DataFrame?",
+      ["pd.DataFrame()", "pd.Chart()", "pd.Image()", "pd.Model()"], 0],
+
+    ["What is a DataFrame?",
+      ["A two-dimensional labeled data structure", "A single number only", "A Python loop", "A machine learning algorithm"], 0],
+
+    ["Which function reads a CSV file in Pandas?",
+      ["pd.read_csv()", "pd.open_csv()", "pd.load_excel()", "pd.import_file()"], 0],
+
+    ["Which command displays the first five rows of a DataFrame?",
+      ["df.head()", "df.tail()", "df.delete()", "df.sort()"], 0],
+
+    ["Which command displays the last five rows?",
+      ["df.tail()", "df.head()", "df.first()", "df.start()"], 0],
+
+    ["Which command displays the number of rows and columns?",
+      ["df.shape", "df.size()", "df.columns()", "df.count_rows()"], 0],
+
+    ["How do you select the column named Age from a DataFrame df?",
+      ["df['Age']", "df(Age)", "df->Age", "df.select(Age)"], 0],
+
+    ["Which command checks for missing values in a DataFrame?",
+      ["df.isnull()", "df.remove()", "df.empty_rows()", "df.check_error()"], 0],
+
+    ["Which Pandas function removes rows containing missing values?",
+      ["df.dropna()", "df.fillna()", "df.head()", "df.describe()"], 0],
+
+    ["Which function provides basic statistical information about numeric columns?",
+      ["df.describe()", "df.read_csv()", "df.dropna()", "df.rename()"], 0]
+  ];
 const state = { screen: 'welcome', candidate: null, answers: {}, question: 0, remaining: DURATION_SECONDS, warnings: 0, timer: null, submitted: false };
 const app = document.querySelector('#app');
 const esc = (value) => String(value).replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[character]));
@@ -411,6 +227,14 @@ render();
 const RESULTS_API = import.meta.env.DEV ? 'http://localhost:8888/.netlify/functions/results' : '/.netlify/functions/results';
 const getAdminPassword = () => localStorage.getItem(ADMIN_KEY) || '';
 
+async function deleteRemoteResult(id) {
+  const response = await fetch(RESULTS_API, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-password': getAdminPassword() }, body: JSON.stringify({ type: 'delete', id }) });
+  if (!response.ok) {
+    const details = await response.text();
+    throw new Error(`Result could not be deleted (${response.status}): ${details}`);
+  }
+}
+
 async function saveRemoteResult(result) {
   const response = await fetch(RESULTS_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'submission', result }) });
   if (!response.ok) {
@@ -455,6 +279,32 @@ renderResults = async function loadRemoteResults() {
   if (response.status === 401) { localStorage.removeItem(ADMIN_KEY); loadRemoteResults(); return; }
   const results = await response.json();
   app.innerHTML = shell(`<section class="results-head"><div><p class="eyebrow">ADMINISTRATION · SHARED RECORDS</p><h1>Results dashboard</h1><p>Review and export completed assessment attempts from all candidates.</p></div><div class="export-actions"><button class="secondary-button" data-export="json">↓ JSON</button><button class="primary-button" data-export="csv">↓ CSV</button></div></section><div class="stats-row"><div><span>Total attempts</span><strong>${results.length}</strong></div><div><span>Average score</span><strong>${results.length ? Math.round(results.reduce((sum, result) => sum + result.percentage, 0) / results.length) : 0}%</strong></div><div><span>Latest submission</span><strong>${results.length ? new Date(results[results.length - 1].submittedAt).toLocaleDateString() : '—'}</strong></div></div><div class="table-wrap">${results.length ? `<table><thead><tr><th>Candidate</th><th>Registration</th><th>Score</th><th>Answered</th><th>Warnings</th><th>Submitted</th></tr></thead><tbody>${results.slice().reverse().map((result) => `<tr><td><b>${esc(result.name)}</b></td><td>${esc(result.regNo)}</td><td><span class="score">${result.percentage}%</span> <small>${result.score}/${result.total}</small></td><td>${result.answered}/${result.total}</td><td>${result.warnings}</td><td>${new Date(result.submittedAt).toLocaleString()}</td></tr>`).join('')}</tbody></table>` : '<div class="empty-state"><span>○</span><h3>No attempts yet</h3><p>Completed submissions will appear here.</p></div>'}</div><button class="text-button" data-action="logout">Sign out of results</button>`, 'results');
+  const table = document.querySelector('table');
+  if (table) {
+    const actionsHeader = document.createElement('th');
+    actionsHeader.textContent = 'Actions';
+    table.querySelector('thead tr').append(actionsHeader);
+    table.querySelectorAll('tbody tr').forEach((row, index) => {
+      const cell = document.createElement('td');
+      const button = document.createElement('button');
+      button.className = 'text-button delete-button';
+      button.textContent = 'Delete';
+      button.addEventListener('click', async () => {
+        const result = results[results.length - 1 - index];
+        if (!confirm(`Delete the result for ${result.name}? This cannot be undone.`)) return;
+        button.disabled = true;
+        try {
+          await deleteRemoteResult(result.id);
+          loadRemoteResults();
+        } catch (error) {
+          button.disabled = false;
+          alert(error.message);
+        }
+      });
+      cell.append(button);
+      row.append(cell);
+    });
+  }
   document.querySelectorAll('[data-export]').forEach((button) => button.addEventListener('click', () => download(button.dataset.export, results)));
   document.querySelector('[data-action="logout"]').addEventListener('click', () => { localStorage.removeItem(ADMIN_KEY); loadRemoteResults(); });
 };
